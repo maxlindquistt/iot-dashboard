@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-const API = 'http://localhost:3000/api';
+const API = 'https://iot-backend-production-b5f0.up.railway.app/api';
 
 export default function LedControl() {
     const [ledOn, setLedOn] = useState(false);
