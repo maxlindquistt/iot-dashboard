@@ -3,7 +3,7 @@ import axios from 'axios';
 import SensorChart from './SensorChart';
 import LedControl from './LedControl';
 
-const API = 'http://localhost:3000/api';
+const API = 'https://iot-backend-production-b5f0.up.railway.app/api';
 
 export default function App() {
     const [allData, setAllData] = useState([]);
