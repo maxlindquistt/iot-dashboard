@@ -1,26 +1,21 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useMqtt } from './useMqtt';
 import SensorChart from './SensorChart';
 import LedControl from './LedControl';
 
 const API = 'http://localhost:3000/api';
 
 export default function App() {
-    const liveReadings = useMqtt();
     const [allData, setAllData] = useState([]);
 
     useEffect(() => {
-        axios.get(`${API}/history`).then(res => {
-            setAllData(res.data.reverse());
-        });
+        const fetchHistory = () => {
+            axios.get(`${API}/history`).then(res => setAllData(res.data.reverse()));
+        };
+        fetchHistory();
+        const interval = setInterval(fetchHistory, 5000);
+        return () => clearInterval(interval);
     }, []);
-
-    useEffect(() => {
-        if (liveReadings.length === 0) return;
-        const latest = liveReadings[liveReadings.length - 1];
-        setAllData(prev => [...prev.slice(-49), latest]);
-    }, [liveReadings]);
 
     const latest = allData[allData.length - 1];
 
