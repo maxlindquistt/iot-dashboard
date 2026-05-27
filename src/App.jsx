@@ -1,20 +1,25 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { io } from 'socket.io-client';
 import SensorChart from './SensorChart';
 import LedControl from './LedControl';
 
-const API = 'https://iot-backend-production-b5f0.up.railway.app/api';
+const BASE = 'https://iot-backend-production-b5f0.up.railway.app';
+const API = `${BASE}/api`;
 
 export default function App() {
     const [allData, setAllData] = useState([]);
 
     useEffect(() => {
-        const fetchHistory = () => {
-            axios.get(`${API}/history`).then(res => setAllData(res.data.reverse()));
-        };
-        fetchHistory();
-        const interval = setInterval(fetchHistory, 5000);
-        return () => clearInterval(interval);
+        axios.get(`${API}/history`).then(res => setAllData(res.data.reverse()));
+    }, []);
+
+    useEffect(() => {
+        const socket = io(BASE);
+        socket.on('sensor_data', reading => {
+            setAllData(prev => [...prev, reading]);
+        });
+        return () => socket.disconnect();
     }, []);
 
     const latest = allData[allData.length - 1];
