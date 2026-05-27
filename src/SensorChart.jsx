@@ -27,8 +27,8 @@ export default function SensorChart({ data }) {
 <YAxis />
                     <Tooltip content={<CustomTooltip />} />
                     <Legend />
-                    <Line type="monotone" dataKey="value" stroke="#1D9E75" name="Temp (°C)" dot={false} />
-                    <Line type="monotone" dataKey="humidity" stroke="#378ADD" name="Humidity (%)" dot={false} />
+                    <Line type="monotone" dataKey="value" stroke="#1D9E75" name="Temp (°C)" dot={false} isAnimationActive={false} />
+                    <Line type="monotone" dataKey="humidity" stroke="#378ADD" name="Humidity (%)" dot={false} isAnimationActive={false} />
                 </LineChart>
             </ResponsiveContainer>
         </div>
